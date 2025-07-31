@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date-Code Converter | Professional Tool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            --secondary-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --accent-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --button-gradient: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            --dark-bg: #1a1d29;
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --text-light: #2c3e50;
+            --text-white: #ffffff;
+        }
+
+        body {
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px 0 rgba(255, 182, 193, 0.3);
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2, #89f7fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .converter-card {
+            margin: 2rem 0;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .converter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(255, 182, 193, 0.4);
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #2c3e50;
+            border-radius: 15px;
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.35);
+            border-color: #89f7fe;
+            box-shadow: 0 0 25px rgba(137, 247, 254, 0.5);
+            color: #2c3e50;
+        }
+
+        .form-select option {
+            background: #ffffff;
+            color: #2c3e50;
+            padding: 10px;
+        }
+
+        .form-select option:hover {
+            background: #f8f9fa;
+        }
+
+        .form-control::placeholder {
+            color: rgba(44, 62, 80, 0.6);
+        }
+
+        .btn-convert {
+            background: var(--button-gradient);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(137, 247, 254, 0.4);
+        }
+
+        .btn-convert:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(137, 247, 254, 0.6);
+            color: white;
+        }
+
+        .btn-clear {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: rgba(255, 255, 255, 0.5);
+            color: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            border-left: 4px solid #89f7fe;
+        }
+
+        .result-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #fecfef;
+            color: #2c3e50;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.8s ease-out;
+        }
+
+        .slide-in-left.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.8s ease-out;
+        }
+
+        .slide-in-right.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease-out;
+        }
+
+        .scale-in.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hero-title {
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: titleReveal 1.2s ease-out 0.2s forwards;
+        }
+
+        .hero-subtitle {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: subtitleReveal 1s ease-out 0.8s forwards;
+        }
+
+        @keyframes titleReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes subtitleReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3.5rem;
+                letter-spacing: -1px;
+            }
+            
+            .converter-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape">
+            <i class="fas fa-code fa-3x"></i>
+        </div>
+        <div class="shape">
+            <i class="fas fa-calendar-alt fa-3x"></i>
+        </div>
+        <div class="shape">
+            <i class="fas fa-exchange-alt fa-3x"></i>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">
+                    <i class="fas fa-sync-alt me-3"></i>
+                    Date-Code Converter
+                </h1>
+                <p class="hero-subtitle">
+                    Professional tool to convert between date formats and custom codes
+                </p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="converter-card glassmorphism scroll-reveal">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="info-card slide-in-left">
+                                    <h5><i class="fas fa-info-circle me-2"></i>Code Format</h5>
+                                    <p class="mb-0">Enter code like: <strong>AB-CD-EF</strong></p>
+                                    <small>Letters A-J represent digits 0-9</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="info-card slide-in-right">
+                                    <h5><i class="fas fa-calendar me-2"></i>Date Format</h5>
+                                    <p class="mb-0">Enter date like: <strong>10-05-25</strong></p>
+                                    <small>Standard DD-MM-YY format</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="converterForm" class="scale-in">
+                            <div class="mb-4">
+                                <label for="conversionType" class="form-label">
+                                    <i class="fas fa-cog me-2"></i>Conversion Type
+                                </label>
+                                <select class="form-select" id="conversionType" required>
+                                    <option value="">Select conversion type</option>
+                                    <option value="code-to-date">Code to Date</option>
+                                    <option value="date-to-code">Date to Code</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="inputValue" class="form-label">
+                                    <i class="fas fa-keyboard me-2"></i>Input Value
+                                </label>
+                                <input type="text" class="form-control" id="inputValue" 
+                                       placeholder="Enter your input here..." required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid input.
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-3 justify-content-center mb-4">
+                                <button type="submit" class="btn btn-convert">
+                                    <i class="fas fa-magic me-2"></i>Convert
+                                </button>
+                                <button type="button" class="btn btn-clear" onclick="clearForm()">
+                                    <i class="fas fa-eraser me-2"></i>Clear
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="resultSection" class="result-section" style="display: none;">
+                            <h5><i class="fas fa-check-circle me-2"></i>Result:</h5>
+                            <p id="resultText" class="result-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-8">
+                    <div class="glassmorphism p-4 text-center scroll-reveal">
+                        <h5><i class="fas fa-lightbulb me-2"></i>How it works</h5>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h6>Code → Date</h6>
+                                <p>Converts letter codes (A=0, B=1, C=2, etc.) to numeric dates</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Date → Code</h6>
+                                <p>Converts numeric dates to letter codes for encoding purposes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mapping objects similar to Java HashMap
+        const codeToDate = {
+            'A': '0', 'B': '1', 'C': '2', 'D': '3', 'E': '4',
+            'F': '5', 'G': '6', 'H': '7', 'I': '8', 'J': '9'
+        };
+
+        const dateToCode = {
+            '0': 'A', '1': 'B', '2': 'C', '3': 'D', '4': 'E',
+            '5': 'F', '6': 'G', '7': 'H', '8': 'I', '9': 'J'
+        };
+
+        // Update placeholder based on conversion type
+        document.getElementById('conversionType').addEventListener('change', function() {
+            const inputField = document.getElementById('inputValue');
+            const type = this.value;
+            
+            if (type === 'code-to-date') {
+                inputField.placeholder = 'Enter code (e.g., AB-CD-EF)';
+            } else if (type === 'date-to-code') {
+                inputField.placeholder = 'Enter date (e.g., 10-05-25)';
+            } else {
+                inputField.placeholder = 'Enter your input here...';
+            }
+            
+            // Clear previous results
+            document.getElementById('resultSection').style.display = 'none';
+        });
+
+        // Form submission handler
+        document.getElementById('converterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted!'); // Debug log
+            
+            const conversionType = document.getElementById('conversionType').value;
+            const inputValue = document.getElementById('inputValue').value.trim();
+            
+            console.log('Conversion Type:', conversionType); // Debug log
+            console.log('Input Value:', inputValue); // Debug log
+            
+            if (!conversionType || !inputValue) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                let result = '';
+                
+                if (conversionType === 'code-to-date') {
+                    result = convertCodeToDate(inputValue.toUpperCase());
+                } else if (conversionType === 'date-to-code') {
+                    result = convertDateToCode(inputValue);
+                }
+                
+                console.log('Result:', result); // Debug log
+                showResult(result);
+                
+            } catch (error) {
+                console.error('Conversion error:', error); // Debug log
+                showError('Invalid input format. Please check your input and try again.');
+            }
+        });
+
+        // Add click event listener for the convert button as backup
+        document.addEventListener('DOMContentLoaded', function() {
+            const convertBtn = document.querySelector('.btn-convert');
+            if (convertBtn) {
+                convertBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Convert button clicked!'); // Debug log
+                    document.getElementById('converterForm').dispatchEvent(new Event('submit'));
+                });
+            }
+        });
+
+        function convertCodeToDate(code) {
+            let result = '';
+            
+            for (let i = 0; i < code.length; i++) {
+                const char = code.charAt(i);
+                
+                if (char === '-') {
+                    result += '-';
+                } else if (codeToDate.hasOwnProperty(char)) {
+                    result += codeToDate[char];
+                } else {
+                    throw new Error('Invalid character in code: ' + char);
+                }
+            }
+            
+            return result;
+        }
+
+        function convertDateToCode(date) {
+            let result = '';
+            
+            for (let i = 0; i < date.length; i++) {
+                const char = date.charAt(i);
+                
+                if (char === '-') {
+                    result += '-';
+                } else if (dateToCode.hasOwnProperty(char)) {
+                    result += dateToCode[char];
+                } else {
+                    throw new Error('Invalid character in date: ' + char);
+                }
+            }
+            
+            return result;
+        }
+
+        function showResult(result) {
+            document.getElementById('resultText').textContent = result;
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultSection').classList.add('fade-in');
+        }
+
+        function showError(message) {
+            const resultSection = document.getElementById('resultSection');
+            const resultText = document.getElementById('resultText');
+            
+            resultText.textContent = message;
+            resultText.style.color = '#ff6b6b';
+            resultSection.style.display = 'block';
+            resultSection.style.borderLeftColor = '#ff6b6b';
+            
+            // Reset border color after 3 seconds
+            setTimeout(() => {
+                resultSection.style.borderLeftColor = '#89f7fe';
+                resultText.style.color = '#2c3e50';
+            }, 3000);
+        }
+
+        function clearForm() {
+            document.getElementById('converterForm').reset();
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('inputValue').placeholder = 'Enter your input here...';
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Scroll animation observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all scroll reveal elements
+            document.querySelectorAll('.scroll-reveal, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add sequential delay for multiple elements
+            const infoCards = document.querySelectorAll('.slide-in-left, .slide-in-right');
+            infoCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('revealed');
+                }, 500 + (index * 200));
+            });
+
+            // Delay form animation
+            setTimeout(() => {
+                document.querySelector('.scale-in').classList.add('revealed');
+            }, 1000);
+
+            // Add floating animation to cards
+            const cards = document.querySelectorAll('.converter-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Smooth scroll effect for page
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Parallax effect for floating shapes
+                document.querySelectorAll('.shape').forEach((shape, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    const yPos = -(scrollTop * speed);
+                    shape.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                });
+
+                lastScrollTop = scrollTop;
+            });
+        });
+    </script>
+</body>
+</html>
