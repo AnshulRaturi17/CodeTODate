@@ -11,6 +11,10 @@
             --secondary-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
             --accent-gradient: linear-gradient(135deg, #333333 0%, #2d2d2d 100%);
             --button-gradient: linear-gradient(135deg, #4a4a4a 0%, #666666 100%);
+            --code-to-date-gradient: linear-gradient(135deg, #55d4f1 0%, #d31feb 100%);
+            --date-to-code-gradient: linear-gradient(135deg, #55d4f1 0%, #d31feb 100%);
+            --result-gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            --input-gradient: linear-gradient(135deg, #eaa177 0%, #dd7f26 100%);
             --dark-bg: #000000;
             --card-bg: rgba(255, 255, 255, 0.05);
             --text-light: #e0e0e0;
@@ -34,15 +38,15 @@
         }
 
         .hero-section {
-            padding: 80px 0;
+            padding: 40px 0 20px 0; /* Reduced padding */
             text-align: center;
             position: relative;
         }
 
         .hero-title {
-            font-size: 5rem;
+            font-size: 4rem; /* Slightly smaller */
             font-weight: 800;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem; /* Reduced margin */
             background: linear-gradient(45deg, #ffffff, #cccccc, #999999);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -54,13 +58,13 @@
         .hero-subtitle {
             font-size: 1.3rem;
             opacity: 0.8;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem; /* Reduced margin */
             color: var(--text-light);
             font-weight: 500;
         }
 
         .converter-card {
-            margin: 2rem 0;
+            margin: 1rem 0; /* Reduced margin */
             padding: 2.5rem;
             transition: all 0.3s ease;
         }
@@ -71,25 +75,27 @@
         }
 
         .form-control, .form-select {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
+            background: var(--input-gradient);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             border-radius: 15px;
             padding: 12px 18px;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            font-weight: 500;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
         }
 
         .form-control:focus, .form-select:focus {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: #666666;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #d54c78 0%, #ffa8e5 100%);
+            border-color: #ff9a9e;
+            box-shadow: 0 0 25px rgba(255, 154, 158, 0.4);
             color: #ffffff;
         }
 
         .form-control::placeholder {
-            color: rgba(224, 224, 224, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
         }
 
         .btn-convert {
@@ -130,16 +136,18 @@
         .result-section {
             margin-top: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--result-gradient);
             border-radius: 15px;
-            border-left: 4px solid #666666;
+            border-left: 4px solid #4ecdc4;
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
         }
 
         .result-text {
             font-size: 1.3rem;
-            font-weight: 600;
-            color: #e0e0e0;
+            font-weight: 700;
+            color: #ffffff;
             margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .floating-shapes {
@@ -195,11 +203,32 @@
             overflow: hidden;
         }
 
-        .conversion-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #666666;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        /* Code to Date Button - Purple theme */
+        .conversion-button.code-to-date {
+            background: var(--code-to-date-gradient);
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .conversion-button.code-to-date:hover {
+           background: linear-gradient(135deg, #0b16df 0%, #4eaaf5 100%);
+            border-color: #5a67d8;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Date to Code Button - Pink/Red theme */
+        .conversion-button.date-to-code {
+            background: var(--date-to-code-gradient);
+            border-color: #6257f5;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .conversion-button.date-to-code:hover {
+            background: linear-gradient(135deg, #0b16df 0%, #4eaaf5 100%);
+            border-color: #f093fb;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
         }
 
         .conversion-button:active {
@@ -209,6 +238,7 @@
         .conversion-button h5 {
             color: #ffffff;
             margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
         }
 
         .conversion-button::before {
@@ -218,7 +248,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
 
@@ -258,7 +288,7 @@
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 3.5rem;
+                font-size: 3rem;
                 letter-spacing: -1px;
             }
             
@@ -269,8 +299,23 @@
 
         @media (max-width: 576px) {
             .hero-title {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
             }
+            
+            .hero-section {
+                padding: 30px 0 15px 0;
+            }
+        }
+
+        /* Enhanced result section styling */
+        .result-section h5 {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+        }
+
+        .result-section h5 i {
+            color: #ffffff;
         }
     </style>
 </head>
@@ -306,14 +351,14 @@
                     <div class="converter-card glassmorphism">
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <div class="conversion-button" onclick="showCodeToDateModal()">
+                                <div class="conversion-button code-to-date" onclick="showCodeToDateModal()">
                                     <h5><i class="fas fa-code me-2"></i>Code to Date</h5>
                                     <p class="mb-0">Convert code like: <strong>AB-CD-EF</strong></p>
                                     <small>Letters A-J represent digits 0-9</small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-4">
-                                <div class="conversion-button" onclick="showDateToCodeModal()">
+                                <div class="conversion-button date-to-code" onclick="showDateToCodeModal()">
                                     <h5><i class="fas fa-calendar me-2"></i>Date to Code</h5>
                                     <p class="mb-0">Convert date like: <strong>10-05-25</strong></p>
                                     <small>Standard DD-MM-YY format</small>
@@ -386,8 +431,8 @@
             '5': 'F', '6': 'G', '7': 'H', '8': 'I', '9': 'J'
         };
 
-        // Global variable to store current conversion type
-        let currentConversionType = '';
+    // Global variable to store current conversion type
+    let currentConversionType = '';
 
         // Show Code to Date input section
         function showCodeToDateModal() {
@@ -416,7 +461,7 @@
             document.getElementById('resultSection').style.display = 'none';
         }
 
-        // Form submission handler
+    // Form submission handler
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('converterForm');
             const convertBtn = document.querySelector('.btn-convert');
@@ -462,39 +507,71 @@
             }
         });
 
+        // --- Validation helpers ---
+        function isValidCode(code) {
+            if (!code) return false;
+            // Must start and end with A-J, only letters A-J or single hyphens between groups allowed
+            // No consecutive hyphens, and no leading/trailing hyphen
+            // Examples valid: AB-CD-EF, A-J, ABC
+            const pattern = /^[A-J](?:[A-J]|-(?=[A-J]))*$/;
+            return pattern.test(code);
+        }
+
+        function isValidDateFormat(date) {
+            return /^\d{2}-\d{2}-\d{2}$/.test(date);
+        }
+
+        function isValidDate(date) {
+            if (!isValidDateFormat(date)) return false;
+            const parts = date.split('-');
+            const dd = parseInt(parts[0], 10);
+            const mm = parseInt(parts[1], 10);
+            const yy = parseInt(parts[2], 10);
+            if (Number.isNaN(dd) || Number.isNaN(mm) || Number.isNaN(yy)) return false;
+            if (mm < 1 || mm > 12) return false;
+            const yearFull = 2000 + yy; // interpret YY as 20YY
+            // Days in each month
+            const daysInMonth = [31, ((yearFull % 4 === 0 && yearFull % 100 !== 0) || (yearFull % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (dd < 1 || dd > daysInMonth[mm - 1]) return false;
+            return true;
+        }
+
         function convertCodeToDate(code) {
+            // code is expected uppercase when called
+            if (!isValidCode(code)) {
+                throw new Error('Invalid code. Use letters A-J and hyphens only (e.g. AB-CD-EF)');
+            }
             let result = '';
-            
             for (let i = 0; i < code.length; i++) {
                 const char = code.charAt(i);
-                
                 if (char === '-') {
                     result += '-';
                 } else if (codeToDate.hasOwnProperty(char)) {
                     result += codeToDate[char];
                 } else {
+                    // this should not happen due to prior validation
                     throw new Error('Invalid character in code: ' + char);
                 }
             }
-            
             return result;
         }
 
         function convertDateToCode(date) {
+            if (!isValidDate(date)) {
+                throw new Error('Invalid date. Use DD-MM-YY with valid day and month values');
+            }
             let result = '';
-            
             for (let i = 0; i < date.length; i++) {
                 const char = date.charAt(i);
-                
                 if (char === '-') {
                     result += '-';
                 } else if (dateToCode.hasOwnProperty(char)) {
                     result += dateToCode[char];
                 } else {
+                    // should not happen because date validation ensures digits
                     throw new Error('Invalid character in date: ' + char);
                 }
             }
-            
             return result;
         }
 
@@ -509,14 +586,17 @@
             const resultText = document.getElementById('resultText');
             
             resultText.textContent = message;
-            resultText.style.color = '#ff6b6b';
+            // Show error text in white on the error background as requested
+            resultText.style.color = '#ffffff';
             resultSection.style.display = 'block';
+            resultSection.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)';
             resultSection.style.borderLeftColor = '#ff6b6b';
             
-            // Reset border color after 3 seconds
+            // Reset colors after 3 seconds
             setTimeout(() => {
-                resultSection.style.borderLeftColor = '#666666';
-                resultText.style.color = '#e0e0e0';
+                resultSection.style.background = 'var(--result-gradient)';
+                resultSection.style.borderLeftColor = '#4ecdc4';
+                resultText.style.color = '#ffffff';
             }, 3000);
         }
 
